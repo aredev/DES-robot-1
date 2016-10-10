@@ -1,6 +1,7 @@
 package behaviors;
 
 
+import lejos.hardware.sensor.SensorConstants;
 import lejos.robotics.Color;
 import lejos.robotics.subsumption.Behavior;
 import main.Robot;
@@ -8,6 +9,7 @@ import main.Robot;
 public class AvoidBlackBorder implements Behavior {
 	
 	private final Robot robot;
+	private boolean suppressed = false;
 	
 	public AvoidBlackBorder(Robot robot){
 		this.robot = robot;
@@ -15,11 +17,12 @@ public class AvoidBlackBorder implements Behavior {
 
 	@Override
 	public boolean takeControl() {
-		return robot.getFloorColor() == Color.BLACK;
+		return robot.getFloorColor() <= 0.42;
 	}
 
 	@Override
 	public void action() {
+		suppressed = false;
 		/*
 		 * Deal with the fact that we now ride on the border.
 		 * Following algorithm:
@@ -28,22 +31,16 @@ public class AvoidBlackBorder implements Behavior {
 		 * - Both should run at equal speed.
 		 * NOTE: Use a negative number in the power field to go in reverse.
 		 */
-		robot.rotateLeftMotorBackward();
-		robot.rotateRightMotorForward();
-		while (robot.getFloorColor() == Color.BLACK){
-				// Still rotating
+		while (!suppressed){
+			robot.getRightMotor().rotate(180, true);
+			robot.getLeftMotor().rotate(-180);
+			
 		}
-		robot.stopLeftMotor();
-		robot.stopRightMotor();
 	}
 
 	@Override
 	public void suppress() {
-		/*
-		 * Stop the motors that cause the robot to rotate
-		 */
-		robot.stopLeftMotor();
-		robot.stopRightMotor();
+		suppressed = true; 
 	}
 
 }
