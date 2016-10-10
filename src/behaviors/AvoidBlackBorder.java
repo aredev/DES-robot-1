@@ -32,6 +32,7 @@ public class AvoidBlackBorder implements Behavior {
 		 * NOTE: Use a negative number in the power field to go in reverse.
 		 */
 		while (!suppressed){
+			System.out.println("Blaximus");
 			robot.getRightMotor().rotate(180, true);
 			robot.getLeftMotor().rotate(-180);
 			

@@ -27,6 +27,7 @@ public class DriveForwardBehavior implements Behavior{
 	@Override
 	public void action() {
 		while(! suppressed){
+			System.out.println("Drive");
 			robot.rotateLeftMotorForward();
 			robot.rotateRightMotorForward();
 			

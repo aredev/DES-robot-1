@@ -20,9 +20,13 @@ public class CheckDistanceBehavior implements Behavior{
 	@Override
 	public void action() {
 		suppressed = false;
+		robot.stopLeftMotor();
+		robot.stopRightMotor();
 		while(!suppressed){
+
+			System.out.println("Distance");
 			robot.getLeftMotor().rotate(180, true);
-			robot.getRightMotor().rotate(-180, true);
+			robot.getRightMotor().rotate(-180);
 		}
 		
 	}

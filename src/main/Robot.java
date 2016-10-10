@@ -59,8 +59,7 @@ public class Robot {
 		/*
 		 * Our Arbitrator, see http://www.lejos.org/nxt/nxj/tutorial/Behaviors/BehaviorProgramming.htm
 		 */
-		Behavior[] behaviors = {new DriveForwardBehavior(this), new AvoidBlackBorder(this), 
-				new OnTouchTurnBehavior(this), new CheckDistanceBehavior(this)};
+		Behavior[] behaviors = {new DriveForwardBehavior(this), new CheckDistanceBehavior(this), new OnTouchTurnBehavior(this), new AvoidBlackBorder(this)};
 		Arbitrator arbitrator = new Arbitrator(behaviors);
 		arbitrator.go();
 	}
