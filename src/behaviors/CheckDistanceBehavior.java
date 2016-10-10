@@ -19,22 +19,25 @@ public class CheckDistanceBehavior implements Behavior{
 
 	@Override
 	public void action() {
+		// Set suppressed to false
 		suppressed = false;
+		// Turn right
+		robot.getLeftMotor().rotate(180, true);
+		robot.getRightMotor().rotate(-180, true);
+		
+		while(robot.getRightMotor().isMoving() && !suppressed){
+			// Wait till turn is complete or suppressed is called
+			Thread.yield();		
+		}
+		// Clean up
 		robot.stopLeftMotor();
 		robot.stopRightMotor();
-		while(!suppressed){
-
-			System.out.println("Distance");
-			robot.getLeftMotor().rotate(180, true);
-			robot.getRightMotor().rotate(-180);
-		}
 		
 	}
 
 	@Override
 	public void suppress() {
 		suppressed = true;
-		
 	}
 
 }

@@ -1,8 +1,6 @@
 package behaviors;
 
 
-import lejos.hardware.sensor.SensorConstants;
-import lejos.robotics.Color;
 import lejos.robotics.subsumption.Behavior;
 import main.Robot;
 
@@ -22,21 +20,18 @@ public class AvoidBlackBorder implements Behavior {
 
 	@Override
 	public void action() {
+		// Set suppressed to false
 		suppressed = false;
-		/*
-		 * Deal with the fact that we now ride on the border.
-		 * Following algorithm:
-		 * - Turn CCW (Counter Clock Wise) by 5 degrees until the surface color is white again.
-		 * - Turning should be done by putting left motor block in reverse and right motor block as normal.
-		 * - Both should run at equal speed.
-		 * NOTE: Use a negative number in the power field to go in reverse.
-		 */
-		while (!suppressed){
-			System.out.println("Blaximus");
-			robot.getRightMotor().rotate(180, true);
-			robot.getLeftMotor().rotate(-180);
-			
+		// Rotate CCW (Counter Clock Wise)
+		robot.getRightMotor().rotate(180, true);
+		robot.getLeftMotor().rotate(-180, true);
+		while (robot.getLeftMotor().isMoving() && !suppressed){
+			// Wait till turn is complete or suppressed is called
+			Thread.yield();
 		}
+		// Clean up
+		robot.stopRightMotor();
+		robot.stopLeftMotor();
 	}
 
 	@Override

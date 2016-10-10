@@ -1,11 +1,5 @@
 package behaviors;
 
-import lejos.hardware.port.SensorPort;
-import lejos.hardware.sensor.SensorConstants;
-import lejos.hardware.sensor.SensorMode;
-import lejos.hardware.sensor.SensorModes;
-import lejos.robotics.*;
-
 import lejos.robotics.subsumption.Behavior;
 import main.Robot;
 
@@ -21,19 +15,20 @@ public class DriveForwardBehavior implements Behavior{
 	@Override
 	public boolean takeControl() {
 		return true;
-		//return robot.getFloorColor() == SensorConstants.WHITE;
 	}
 
 	@Override
 	public void action() {
-		while(! suppressed){
-			System.out.println("Drive");
-			robot.rotateLeftMotorForward();
-			robot.rotateRightMotorForward();
-			
-			System.out.println(robot.getDistanceValue());
+		// Set suppressed to false
+		suppressed = false;
+		// Make both motors go forward
+		robot.getLeftMotor().forward();
+		robot.getRightMotor().forward();
+		while(!suppressed){
+			// Wait till turn is complete or suppressed is called
+			Thread.yield();
 		}
-		
+		// Clean up
 		robot.stopLeftMotor();
 		robot.stopRightMotor();
 	}

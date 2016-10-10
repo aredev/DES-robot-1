@@ -23,30 +23,40 @@ public class OnTouchTurnBehavior implements Behavior{
 			collisionRight = true;
 			return true;
 		}
-		return false;
+		else{
+			return false;
+		}
 	}
 
 	@Override
 	public void action() {
+		// Set suppressed to false
 		suppressed = false;
-		while(! suppressed ){
-			System.out.println("Backwards");
-			robot.getRightMotor().rotate(-180, true);
-			robot.getLeftMotor().rotate(-180);
-			if (collisionLeft){
-				System.out.println("Left C");
-				robot.getRightMotor().rotate(-180, true);
-				robot.getLeftMotor().rotate(180);
-			}else{
-				System.out.println("Right C");
-				robot.getLeftMotor().rotate(-180, true);
-				robot.getRightMotor().rotate(180);
-			}
-			break;
-		}
 		
+		// Move backwards
+		robot.getRightMotor().rotate(-180, true);
+		robot.getLeftMotor().rotate(-180);
+		
+		if (collisionLeft){
+			// Turn right
+			System.out.println("Left C");
+			robot.getRightMotor().rotate(-180, true);
+			robot.getLeftMotor().rotate(180, true);
+		}else{
+			// Turn left
+			System.out.println("Right C");
+			robot.getRightMotor().rotate(180, true);
+			robot.getLeftMotor().rotate(-180, true);
+		}
+		// Note that we always end up spinning the left motor in the end
+		while(robot.getLeftMotor().isMoving() && !suppressed ){
+			Thread.yield();	
+		}
+		// Clean up
 		collisionLeft = false;
 		collisionRight = false;
+		robot.getLeftMotor().stop();
+		robot.getRightMotor().stop();
 	}
 
 	@Override
