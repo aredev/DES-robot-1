@@ -21,6 +21,8 @@ public class DriveForwardBehavior implements Behavior{
 	public void action() {
 		// Set suppressed to false
 		suppressed = false;
+		robot.getLeftMotor().setSpeed(120);
+		robot.getRightMotor().setSpeed(120);
 		// Make both motors go forward
 		robot.getLeftMotor().forward();
 		robot.getRightMotor().forward();

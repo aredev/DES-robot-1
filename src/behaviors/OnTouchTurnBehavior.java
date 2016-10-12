@@ -35,7 +35,7 @@ public class OnTouchTurnBehavior implements Behavior{
 		
 		// Move backwards
 		robot.getRightMotor().rotate(-180, true);
-		robot.getLeftMotor().rotate(-180);
+		robot.getLeftMotor().rotate(-180, true);
 		
 		if (collisionLeft){
 			// Turn right
